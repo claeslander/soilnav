@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Veld Planner</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="page">
+    <div id="leftcontent">
+        <h1>Veld Planner</h1>
+
+        <!-- Stap 1: Veld tekenen -->
+        <div class="step-card" id="step-field">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <span class="step-title">Veld afbakenen</span>
+            </div>
+            <p class="hint">Klik op de kaart om punten te plaatsen. Klik het startpunt opnieuw om het veld te sluiten.</p>
+            <details>
+                <summary>Coördinaten tonen</summary>
+                <textarea id="coordinates-textarea" readonly
+                          placeholder="Klik op de kaart om te beginnen…"></textarea>
+            </details>
+            <div class="btn-row">
+                <button id="close-field-btn" disabled>Sluit veld</button>
+                <button id="clear-btn" class="btn-warn">Wis alles</button>
+            </div>
+        </div>
+
+        <!-- Stap 2: Gewassen (verborgen tot veld gesloten is) -->
+        <div class="step-card" id="step-crops" hidden>
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <span class="step-title">Gewassen oriënteren</span>
+            </div>
+
+            <label>Rijrichting &mdash; <span id="angle-display">0°</span></label>
+            <div class="angle-row">
+                <input type="range" id="angle-slider" min="0" max="179" value="0">
+                <svg id="dir-svg" viewBox="-30 -30 60 60" width="58" height="58"
+                     aria-label="Rijrichting indicator">
+                    <circle r="28" fill="#eee8d5" stroke="#8ca06b" stroke-width="1.5"/>
+                    <text x="0" y="-19" text-anchor="middle" font-size="6"
+                          fill="#8ca06b" font-family="sans-serif">N</text>
+                    <text x="0" y="26"  text-anchor="middle" font-size="6"
+                          fill="#8ca06b" font-family="sans-serif">Z</text>
+                    <defs>
+                        <clipPath id="row-clip">
+                            <circle r="26"/>
+                        </clipPath>
+                    </defs>
+                    <g id="dir-rows" clip-path="url(#row-clip)">
+                        <line x1="-12" y1="-28" x2="-12" y2="28"
+                              stroke="#5a7a32" stroke-width="2.2" stroke-linecap="round"/>
+                        <line x1="-4"  y1="-28" x2="-4"  y2="28"
+                              stroke="#5a7a32" stroke-width="2.2" stroke-linecap="round"/>
+                        <line x1="4"   y1="-28" x2="4"   y2="28"
+                              stroke="#5a7a32" stroke-width="2.2" stroke-linecap="round"/>
+                        <line x1="12"  y1="-28" x2="12"  y2="28"
+                              stroke="#5a7a32" stroke-width="2.2" stroke-linecap="round"/>
+                    </g>
+                </svg>
+            </div>
+
+            <label for="spacing-input">Rijafstand (m)</label>
+            <input type="number" id="spacing-input" value="10" min="1" max="500" step="1">
+
+            <div class="btn-row" style="margin-top: 12px">
+                <button id="clear-rows-btn" class="btn-warn">Wis rijen</button>
+            </div>
+        </div>
+
+        <!-- Robot GPS status -->
+        <div class="step-card" id="step-gps">
+            <div class="step-header">
+                <span class="step-num" style="background:#4a6e9e">R</span>
+                <span class="step-title">Robot positie</span>
+                <span id="gps-dot" class="gps-dot gps-dot--off"></span>
+            </div>
+            <p class="hint" id="gps-coords">Wachten op GPS…</p>
+            <p class="hint" id="geofence-status">Geen geofence actief</p>
+            <div class="btn-row">
+                <button id="clear-track-btn" class="btn-warn">Wis pad</button>
+                <button id="center-robot-btn" class="btn-blue" disabled>Centreer</button>
+            </div>
+        </div>
+
+        <button id="download-btn" class="btn-blue">Download CSV</button>
+    </div>
+
+    <div id="rightcontent">
+        <div id="map"></div>
+    </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #efe6d1;
+    color: #2f3b24;
+}
+
+#page {
+    display: flex;
+    height: 100vh;
+}
+
+/* ── Linker paneel ──────────────────────────────────────────────────────── */
+
+#leftcontent {
+    width: 272px;
+    min-width: 220px;
+    background: #c7d7a1;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: #41572f;
+    margin: 0 0 2px;
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* ── Stap-kaarten ───────────────────────────────────────────────────────── */
+
+.step-card {
+    background: rgba(255, 255, 255, 0.32);
+    border-radius: 12px;
+    padding: 12px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.step-num {
+    width: 22px;
+    height: 22px;
+    background: #5a7a32;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-title {
+    font-weight: 600;
+    color: #3d5a25;
+    font-size: 0.95rem;
+}
+
+.hint {
+    margin: 0;
+    color: #5b6d43;
+    font-size: 0.79rem;
+    line-height: 1.4;
+}
+
+details summary {
+    cursor: pointer;
+    font-size: 0.79rem;
+    color: #5b6d43;
+    user-select: none;
+    margin-top: 2px;
+}
+
+textarea {
+    width: 100%;
+    height: 96px;
+    border-radius: 8px;
+    border: 1.5px solid #8ca06b;
+    background: #f8f3e7;
+    color: #3d3425;
+    padding: 8px 10px;
+    font-size: 0.7rem;
+    font-family: monospace;
+    resize: none;
+    margin-top: 6px;
+}
+
+/* ── Knoppen ────────────────────────────────────────────────────────────── */
+
+.btn-row {
+    display: flex;
+    gap: 7px;
+}
+
+button {
+    flex: 1;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.84rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: #8b6b3f;
+    color: #f8f3e7;
+    transition: filter 0.12s;
+}
+
+button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+button:not(:disabled):hover { filter: brightness(1.13); }
+
+.btn-warn  { background: #b05030; }
+.btn-green { background: #5a7a32; }
+.btn-blue  { background: #4a6e9e; }
+
+#download-btn {
+    margin-top: auto;
+    padding: 11px;
+}
+
+/* ── Gewassen-instellingen ──────────────────────────────────────────────── */
+
+label {
+    font-size: 0.81rem;
+    font-weight: 600;
+    color: #3d5a25;
+    margin-top: 4px;
+    display: block;
+}
+
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 7px 9px;
+    border-radius: 8px;
+    border: 1.5px solid #8ca06b;
+    background: #f8f3e7;
+    color: #3d3425;
+    font-size: 0.87rem;
+}
+
+.angle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="range"] {
+    flex: 1;
+    accent-color: #5a7a32;
+}
+
+#dir-svg { flex-shrink: 0; }
+
+/* ── GPS statusdot ──────────────────────────────────────────────────────── */
+
+.gps-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.gps-dot--off  { background: #aaa; }
+.gps-dot--fix  { background: #4caf50; box-shadow: 0 0 0 3px rgba(76,175,80,.25); animation: pulse 1.4s infinite; }
+.gps-dot--nofix { background: #e87722; }
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(76,175,80,.25); }
+    50%       { box-shadow: 0 0 0 6px rgba(76,175,80,.0);  }
+}
+
+/* ── Kaart ──────────────────────────────────────────────────────────────── */
+
+#rightcontent { flex: 1; }
+#map { width: 100%; height: 100%; }
